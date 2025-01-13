@@ -1,9 +1,10 @@
 "use client";
+import { AuditReport } from "@/app/components/AudirReport";
+import { AuditTable } from "@/app/components/AuditTable";
+import RepoForm from "@/app/components/RepoForm";
+import { AuditResponse } from "@/app/utils/types";
 import { useState } from "react";
-import { AuditReport } from "./components/AudirReport";
-import { AuditTable } from "./components/AuditTable";
-import RepoForm from "./components/RepoForm";
-import { AuditResponse } from "./utils/types";
+
 
 export default function Home() {
   const [auditResult, setAuditResult] = useState<AuditResponse | null>(null);
