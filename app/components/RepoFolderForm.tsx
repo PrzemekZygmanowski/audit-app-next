@@ -4,13 +4,11 @@ import { AuditResponse } from "../utils/types";
 interface RepoFormProps {
   onAuditComplete: (auditResult: AuditResponse) => void;
 }
-// Define the shape of the state
 interface FileState {
   packageLockJson: string | null;
   packageJson: string | null;
 }
 
-// Define the possible action types
 type FileAction =
   | {
       type: "setFiles";
@@ -18,7 +16,6 @@ type FileAction =
     }
   | { type: "resetFiles" };
 
-// Initial state
 const initialState: FileState = {
   packageLockJson: null,
   packageJson: null,
@@ -52,35 +49,25 @@ export const RepoFolderForm: React.FC<RepoFormProps> = ({
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const files = event.target.files;
-    console.log(files);
-
     if (!files) {
       alert("No files selected.");
       return;
     }
-    // Convert FileList to an array for easy iteration
     const fileArray = Array.from(files);
 
-    // Find the required files
     const packageLockFile = fileArray.find(
       file => file.name === "package-lock.json"
     );
     const packageFile = fileArray.find(file => file.name === "package.json");
-
-    // Log files for debugging
-    console.log("package-lock.json:", packageLockFile);
-    console.log("package.json:", packageFile);
 
     if (!packageLockFile || !packageFile) {
       alert("Please select both package-lock.json and package.json files.");
       return;
     }
 
-    // Read content of each file
     const packageLockContent = await packageLockFile.text();
     const packageContent = await packageFile.text();
 
-    // Update the state with file contents
     dispatch({
       type: "setFiles",
       payload: {
@@ -88,7 +75,6 @@ export const RepoFolderForm: React.FC<RepoFormProps> = ({
         packageJson: packageContent,
       },
     });
-    console.log(state);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -111,7 +97,6 @@ export const RepoFolderForm: React.FC<RepoFormProps> = ({
         }
 
         const data = await response.json();
-        console.log(data);
 
         onAuditComplete(JSON.parse(data.report));
         alert("Audit complete. Check console for results.");

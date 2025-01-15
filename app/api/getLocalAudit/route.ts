@@ -10,7 +10,6 @@ const execPromise = promisify(exec);
 
 export async function POST(request: Request) {
   try {
-    // Parse the incoming JSON request body
     const body = await request.json();
     const { packageLockJson, packageJson } = body;
 
@@ -28,30 +27,22 @@ export async function POST(request: Request) {
     const packageLockPath = path.join(workspaceDir, "package-lock.json");
     const packagePath = path.join(workspaceDir, "package.json");
 
-    // Step 1: Create the workspace directory
     await fs.mkdir(workspaceDir, { recursive: true });
 
-    // Step 2: Write the package-lock.json and package.json content to files
     await fs.writeFile(packageLockPath, packageLockJson, "utf8");
     await fs.writeFile(packagePath, packageJson, "utf8");
-    console.log("Files written to workspace:", {
-      packageLockPath,
-      packagePath,
-    });
-    console.log("workspaceDir", workspaceDir);
+
     const options = { reporter: "json" };
     const arb = new Arborist({ path: workspaceDir });
     const report = await arb.audit();
     const result = load(report, options);
-    console.log(result);
+
     return NextResponse.json({ report: result.report });
 
-    // Step 3: Run `npm audit` to get the audit result
     // const { stdout, stderr } = await execPromise("npm audit --json", {
     //   cwd: workspaceDir,
     // });
 
-    // Step 4: Return the audit results as JSON response
     // return NextResponse.json({ result: stdout || stderr });
   } catch (error) {
     if (error instanceof Error) {
@@ -63,7 +54,6 @@ export async function POST(request: Request) {
       );
     }
   } finally {
-    // Clean up the workspace directory after processing
     const workspaceDir = path.join(process.cwd(), "public", "workspace");
     try {
       await fs.rm(workspaceDir, { recursive: true, force: true });
