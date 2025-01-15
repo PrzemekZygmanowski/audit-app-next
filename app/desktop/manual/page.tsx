@@ -1,10 +1,10 @@
 "use client";
 import { AuditReport } from "@/app/components/AudirReport";
 import { AuditTable } from "@/app/components/AuditTable";
-import RepoForm from "@/app/components/RepoForm";
+import { ManualRepoForm } from "@/app/components/ManualRepoForm";
+import { PageLayout } from "@/app/components/PageLayout";
 import { AuditResponse } from "@/app/utils/types";
 import { useState } from "react";
-
 
 export default function Home() {
   const [auditResult, setAuditResult] = useState<AuditResponse | null>(null);
@@ -48,14 +48,14 @@ export default function Home() {
   };
 
   return (
-    <div className='p-8 bg-gray-50 min-h-screen'>
+    <PageLayout>
       <h1 className='text-3xl font-bold mb-6 text-gray-800'>
         Audit Repository with npm
       </h1>
-      <RepoForm onSubmit={handleAudit} />
+      <ManualRepoForm onSubmit={handleAudit} />
       {error && <p className='text-red-500 mt-4'>Error: {error}</p>}
       {tableData.length > 0 && <AuditTable audits={tableData} />}
       {auditResult && <AuditReport {...auditResult} />}
-    </div>
+    </PageLayout>
   );
 }

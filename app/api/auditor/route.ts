@@ -20,7 +20,6 @@ export async function POST(request: Request) {
     const options = { reporter: "json" };
     const arb = new Arborist({ path: repoPath });
     const report = await arb.audit();
-    console.log(report.tree.packageName);
 
     const result = load(report, options);
 

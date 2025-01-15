@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@npmcli/arborist": "^9.0.0",
+    "clsx": "^2.1.1",
     "next": "15.1.4",
     "npm-audit-report": "^6.0.0",
     "react": "^19.0.0",

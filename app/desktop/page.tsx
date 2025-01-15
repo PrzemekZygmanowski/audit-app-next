@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { AuditReport } from "../components/AudirReport";
 import { AuditTable } from "../components/AuditTable";
-import RepoForm from "../components/RepoForm";
+import { PageLayout } from "../components/PageLayout";
+import { RepoForm } from "../components/RepoForm";
 import { AuditResponse } from "../utils/types";
 
 export default function Home() {
@@ -47,7 +48,7 @@ export default function Home() {
   };
 
   return (
-    <div className='p-8 bg-gray-50 min-h-screen'>
+    <PageLayout>
       <h1 className='text-3xl font-bold mb-6 text-gray-800'>
         Audit Repository with npm
       </h1>
@@ -55,6 +56,6 @@ export default function Home() {
       {error && <p className='text-red-500 mt-4'>Error: {error}</p>}
       {tableData.length > 0 && <AuditTable audits={tableData} />}
       {auditResult && <AuditReport {...auditResult} />}
-    </div>
+    </PageLayout>
   );
 }
